@@ -31,6 +31,14 @@ const ShoeCard = ({
       ? 'new-release'
       : 'default'
   const onSale = salePrice !== null;
+
+  const flagContent =
+    variant === "on-sale"
+      ? "Sale"
+      : variant === "new-release"
+      ? "Just Released!"
+      : null;
+
   console.log(onSale);
   return (
     <Link href={`/shoe/${slug}`}>
@@ -47,6 +55,13 @@ const ShoeCard = ({
           <ColorInfo>{pluralize("Color", numOfColors)}</ColorInfo>
           {onSale && <SalePrice>{formatPrice(salePrice)}</SalePrice>}
         </Row>
+        {variant !== "default" && (
+          <Flag
+            color={variant === "on-sale" ? COLORS.primary : COLORS.secondary}
+          >
+            {flagContent}
+          </Flag>
+        )}
       </Wrapper>
     </Link>
   );
@@ -58,7 +73,9 @@ const Link = styled.a`
   flex: 1 1 30%;
 `;
 
-const Wrapper = styled.article``;
+const Wrapper = styled.article`
+  position: relative;
+`;
 
 const ImageWrapper = styled.div`
   position: relative;
@@ -93,5 +110,15 @@ const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
 `;
-
+const Flag = styled.span`
+  padding: 10px;
+  background-color: ${(props) => props.color};
+  color: ${COLORS.white};
+  font-size: 0.8rem;
+  font-weight: ${WEIGHTS.medium};
+  border-radius: 5px;
+  position: absolute;
+  top: 20px;
+  right: -5px;
+`;
 export default ShoeCard;
