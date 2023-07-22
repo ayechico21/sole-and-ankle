@@ -30,7 +30,8 @@ const ShoeCard = ({
     : isNewShoe(releaseDate)
       ? 'new-release'
       : 'default'
-
+  const onSale = salePrice !== null;
+  console.log(onSale);
   return (
     <Link href={`/shoe/${slug}`}>
       <Wrapper>
@@ -40,10 +41,11 @@ const ShoeCard = ({
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price onSale={onSale}>{formatPrice(price)}</Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize("Color", numOfColors)}</ColorInfo>
+          {onSale && <SalePrice>{formatPrice(salePrice)}</SalePrice>}
         </Row>
       </Wrapper>
     </Link>
@@ -78,7 +80,10 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  text-decoration: ${(props) => (props.onSale ? "line-through" : "")};
+  opacity: ${(props) => (props.onSale ? 0.5 : "")};
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
